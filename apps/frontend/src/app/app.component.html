@@ -1,0 +1,22 @@
+<div id="main-view">
+  <div id="viz">
+    <canvas id="analyser" width="1024" height="500" [ngClass]="{ disabled: !recording }"></canvas>
+    <canvas id="wavedisplay" width="1024" height="500"></canvas>
+    <span class="canvas-shadow"></span>
+  </div>
+
+  <div id="controls">
+    <img
+      #record
+      id="record"
+      src="assets/img/mic128.png"
+      onclick="toggleRecording(this);"
+    />
+    <a #save id="save" href="javascript:void(0)"><img src="assets/img/save.svg" /></a>
+  </div>
+</div>
+
+<div id="btc" [ngClass]="{ active: recording }">
+  <span class="icon" (click)="toggle()" [ngClass]="{ loading: loading }"></span>
+  <i id="stop" (click)="stopLoading()"></i>
+</div>

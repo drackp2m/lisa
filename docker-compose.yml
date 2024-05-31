@@ -1,0 +1,41 @@
+version: '3.8'
+
+networks:
+  lisa-network:
+    name: lisa-network
+
+services:
+  whisper-service:
+    container_name: whisper-service
+    hostname: whisper-service
+    build:
+      context: .
+      target: whisper
+    networks:
+      - lisa-network
+    ports:
+      - 4250:5000
+    restart: unless-stopped
+    tty: true
+
+  lisa-service:
+    container_name: lisa-service
+    hostname: lisa-service
+    build:
+      context: .
+      target: nx-dev
+    networks:
+      - lisa-network
+    ports:
+      - 4230:${API_PORT}
+      - 4242:4200
+      - 39229:9229
+    volumes:
+      - ~/.ssh:/home/user/.ssh:ro
+      - ~/.gitconfig:/etc/gitconfig:ro
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      PATH: $PATH:/usr/src/app/node_modules/.bin
+    restart: unless-stopped
+    tty: true
